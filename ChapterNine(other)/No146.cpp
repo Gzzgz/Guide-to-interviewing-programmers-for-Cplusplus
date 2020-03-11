@@ -12,6 +12,7 @@
 */
 #include <iostream>
 #include <set>
+#include <algorithm>
 
 void process(int* arr, int len, int i, int sum, std::set<int>& set) {
 	if (i == len) {
@@ -52,7 +53,7 @@ int unformedSum2(int* arr, int len) {
 		min = min < arr[i] ? min : arr[i];
 	}
 	bool* dp = new bool[sum + 1];
-	memset(dp, 0, sizeof(bool) * len);
+	memset(dp, 0, sizeof(bool) * (sum + 1));
 	dp[0] = true;
 	for (int i = 0; i < len; i ++) {
 		for (int j = sum; j >= arr[i]; j --) {
@@ -67,6 +68,27 @@ int unformedSum2(int* arr, int len) {
 	return sum + 1;
 }
 
+bool cmp(int a, int b){
+	return a < b;
+}
+
+int unformedSum3(int* arr, int len) {
+	if (arr == nullptr || len == 0) {
+		return 1;
+	}
+	std::sort(arr, arr + len, cmp);
+	int range = 0;
+	for (int i = 0; i < len; i ++) {
+		if (arr[i] > range + 1) {
+			return range + 1;
+		}
+		else {
+			range += arr[i];
+		}
+		std::cout << arr[i] << std::endl;
+	}
+	return range + 1;
+}
 
 int main() {
 	
